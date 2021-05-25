@@ -16,9 +16,9 @@ async function signup(email, password, displayName) {
     await response.user.updateProfile({ displayName });
     error.value = null;
     return response;
-  } catch (error) {
-    console.error(error.message);
-    error.value = error;
+  } catch (err) {
+    console.error(err.message);
+    error.value = err.message;
   }
 }
 
