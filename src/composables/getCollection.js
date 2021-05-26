@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import { projectFirestore } from "../firebase/config";
 
 function getCollection(collection) {
@@ -9,8 +9,9 @@ function getCollection(collection) {
     .collection(collection)
     .orderBy("createdAt");
 
-  collectionRef.onSnapshot(
+  const unsub = collectionRef.onSnapshot(
     (snap) => {
+      console.log(snap)
       let results = [];
       snap.docs.forEach((doc) => {
         doc.data().createdAt && results.push({ ...doc.data(), id: doc.id });
@@ -24,6 +25,11 @@ function getCollection(collection) {
       error.value = "Could not retrieve data. Please check console.";
     }
   );
+
+  watchEffect((onInvalidate) => {
+    //unsubscribe from previous collection when watcher is stopped (component unmounted)
+    onInvalidate(() => unsub())
+  })
 
   return { documents, error };
 }

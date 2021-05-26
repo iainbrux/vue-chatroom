@@ -7,8 +7,12 @@ import { projectAuth } from "../firebase/config";
 
 function requireAuth(to, from, next) {
   let user = projectAuth.currentUser;
-  console.log("current user in auth guard: ", user);
   !user ? next({ name: "Welcome" }) : next();
+}
+
+function requireNoAuth(to, from, next) {
+  let user = projectAuth.currentUser;
+  user ? next({ name: "Chatroom" }) : next();
 }
 
 const routes = [
@@ -16,6 +20,7 @@ const routes = [
     path: "/",
     name: "Welcome",
     component: Welcome,
+    beforeEnter: requireNoAuth,
   },
   {
     path: "/chatroom",
