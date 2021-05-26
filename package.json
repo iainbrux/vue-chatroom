@@ -10,6 +10,8 @@
     "core-js": "^3.6.5",
     "date-fns": "^2.21.3",
     "firebase": "^8.6.2",
+    "firebase-tools": "^9.11.0",
+    "global": "^4.4.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0"
   },
